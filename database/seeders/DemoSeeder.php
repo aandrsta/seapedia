@@ -57,37 +57,146 @@ class DemoSeeder extends Seeder
         $store = Store::updateOrCreate(
             ['user_id' => $seller->id],
             [
-                'name' => 'Toko Samudra',
-                'description' => 'Menyediakan berbagai peralatan fotografi dan gadget premium berkualitas tinggi.',
+                'name' => 'Toko Samudra Dive',
+                'description' => 'Pusat penyedia alat selam professional dan aksesoris diving premium.',
             ]
         );
 
-        // Seed products under store
+        // Seed products under Toko Samudra Dive
         Product::updateOrCreate(
-            ['store_id' => $store->id, 'name' => 'Kamera DSLR Professional'],
+            ['store_id' => $store->id, 'name' => 'Baju Selam Neoprene 3mm'],
             [
-                'description' => 'Kamera DSLR resolusi tinggi cocok untuk fotografer profesional dan pemula.',
-                'price' => 250000.00, // Rp 250.000 for easier demo/testing
-                'stock' => 10,
-                'image_url' => null,
+                'description' => 'Wetsuit diving neoprene elastis tebal 3mm, memberikan kehangatan optimal di bawah air.',
+                'price'       => 450000.00,
+                'stock'       => 12,
+                'category'    => 'Deep Sea Gear',
+                'image_url'   => 'images/products/neoprene-wetsuit.png',
+                'sold_count'  => 312,
+                'rating'      => 4.8,
             ]
         );
         Product::updateOrCreate(
-            ['store_id' => $store->id, 'name' => 'Keyboard Mechanical RGB'],
+            ['store_id' => $store->id, 'name' => 'Masker Selam Tempered Glass'],
             [
-                'description' => 'Keyboard mekanikal switch biru dengan pencahayaan RGB dinamis.',
-                'price' => 120000.00, // Rp 120.000
-                'stock' => 25,
-                'image_url' => null,
+                'description' => 'Masker selam dengan lensa tempered glass anti-fogging dan seal silikon kedap air.',
+                'price'       => 180000.00,
+                'stock'       => 20,
+                'category'    => 'Deep Sea Gear',
+                'image_url'   => 'images/products/diving-mask.png',
+                'sold_count'  => 540,
+                'rating'      => 4.9,
             ]
         );
         Product::updateOrCreate(
-            ['store_id' => $store->id, 'name' => 'Mouse Wireless Ergonomis'],
+            ['store_id' => $store->id, 'name' => 'Sirip Selam Pro-Flow Fins'],
             [
-                'description' => 'Mouse wireless presisi tinggi dengan baterai isi ulang dan desain nyaman.',
-                'price' => 45000.00, // Rp 45.000
-                'stock' => 40,
-                'image_url' => null,
+                'description' => 'Diving fins (kaki katak) bersaluran aliran hidrodinamis untuk dorongan maksimal.',
+                'price'       => 320000.00,
+                'stock'       => 15,
+                'category'    => 'Deep Sea Gear',
+                'image_url'   => 'images/products/diving-fins.png',
+                'sold_count'  => 198,
+                'rating'      => 4.7,
+            ]
+        );
+
+        // 2b. Seller 2 Setup (Bahari Fishing)
+        $seller2 = User::updateOrCreate(
+            ['username' => 'seller2'],
+            [
+                'name' => 'Seller Bahari Fishing',
+                'email' => 'seller2@seapedia.com',
+                'password' => Hash::make('password'),
+            ]
+        );
+        UserRole::updateOrCreate(['user_id' => $seller2->id, 'role' => 'seller']);
+        $store2 = Store::updateOrCreate(
+            ['user_id' => $seller2->id],
+            [
+                'name' => 'Bahari Fishing Shop',
+                'description' => 'Penyedia joran pancing carbon, reel spinning, dan umpan pancing laut dalam.',
+            ]
+        );
+
+        // Seed products under Bahari Fishing Shop
+        Product::updateOrCreate(
+            ['store_id' => $store2->id, 'name' => 'Joran Pancing Carbon 2.1m'],
+            [
+                'description' => 'Joran pancing casting serat karbon tebal 2.1 meter, ultra-ringan dan sangat tangguh.',
+                'price'       => 350000.00,
+                'stock'       => 10,
+                'category'    => 'Deep Sea Gear',
+                'image_url'   => 'images/products/fishing-rod.png',
+                'sold_count'  => 87,
+                'rating'      => 4.6,
+            ]
+        );
+        Product::updateOrCreate(
+            ['store_id' => $store2->id, 'name' => 'Reel Pancing Spinning 12-BB'],
+            [
+                'description' => 'Reel pancing spinning dengan 12 bantalan bola antikarat, tarikan drag halus.',
+                'price'       => 290000.00,
+                'stock'       => 22,
+                'category'    => 'Deep Sea Gear',
+                'image_url'   => 'images/products/fishing-reel.png',
+                'sold_count'  => 230,
+                'rating'      => 4.7,
+            ]
+        );
+
+        // 2c. Seller 3 Setup (Coral Guardian Store)
+        $seller3 = User::updateOrCreate(
+            ['username' => 'seller3'],
+            [
+                'name' => 'Seller Coral Guardian',
+                'email' => 'seller3@seapedia.com',
+                'password' => Hash::make('password'),
+            ]
+        );
+        UserRole::updateOrCreate(['user_id' => $seller3->id, 'role' => 'seller']);
+        $store3 = Store::updateOrCreate(
+            ['user_id' => $seller3->id],
+            [
+                'name' => 'Coral Guardian Store',
+                'description' => 'Peralatan penyelamatan maritim, dry bag waterproof, dan senter bawah air.',
+            ]
+        );
+
+        // Seed products under Coral Guardian Store
+        Product::updateOrCreate(
+            ['store_id' => $store3->id, 'name' => 'Pelampung Life Vest Premium'],
+            [
+                'description' => 'Life jacket/vest dengan daya apung tinggi bersertifikasi keselamatan pelayaran.',
+                'price'       => 120000.00,
+                'stock'       => 35,
+                'category'    => 'Deck Wear',
+                'image_url'   => 'images/products/life-vest.png',
+                'sold_count'  => 420,
+                'rating'      => 4.9,
+            ]
+        );
+        Product::updateOrCreate(
+            ['store_id' => $store3->id, 'name' => 'Senter Bawah Air Waterproof'],
+            [
+                'description' => 'Senter selam LED profesional berdaya tahan air hingga kedalaman 50 meter.',
+                'price'       => 220000.00,
+                'stock'       => 18,
+                'category'    => 'Deep Sea Gear',
+                'image_url'   => 'images/products/waterproof-flashlight.png',
+                'sold_count'  => 155,
+                'rating'      => 4.5,
+            ]
+        );
+        Product::updateOrCreate(
+            ['store_id' => $store3->id, 'name' => 'Tas Dry Bag Marine 20L'],
+            [
+                'description' => 'Tas punggung dry bag 100% kedap air kapasitas 20 liter untuk melindungi barang elektronik.',
+                'price'       => 95000.00,
+                'stock'       => 45,
+                'category'    => 'Deck Wear',
+                'image_url'   => 'images/products/dry-bag.png',
+                'sold_count'  => 680,
+                'rating'      => 4.8,
             ]
         );
 
@@ -125,17 +234,46 @@ class DemoSeeder extends Seeder
         $multiStore = Store::updateOrCreate(
             ['user_id' => $multi->id],
             [
-                'name' => 'Toko Multi Nusantara',
-                'description' => 'Toko serba ada yang menjual barang-barang unik nusantara.',
+                'name' => 'Toko Maritim Nusantara',
+                'description' => 'Toko pakaian dan gaya hidup kru maritim bertema kelautan nusantara.',
+            ]
+        );
+
+        // Seed products under Toko Maritim Nusantara
+        Product::updateOrCreate(
+            ['store_id' => $multiStore->id, 'name' => 'Jaket Parka Navigator Waterproof'],
+            [
+                'description' => 'Jaket parka khusus laut anti-air dan penahan angin kencang dengan lapisan polar hangat.',
+                'price'       => 550000.00,
+                'stock'       => 15,
+                'category'    => 'Deck Wear',
+                'image_url'   => 'images/products/parka-jacket.png',
+                'sold_count'  => 143,
+                'rating'      => 4.8,
             ]
         );
         Product::updateOrCreate(
-            ['store_id' => $multiStore->id, 'name' => 'Kopi Arabika Gayo 250g'],
+            ['store_id' => $multiStore->id, 'name' => 'Kacamata Polarized Pelaut'],
             [
-                'description' => 'Biji kopi arabika Gayo pilihan dengan aroma dan rasa khas premium.',
-                'price' => 75000.00, // Rp 75.000
-                'stock' => 15,
-                'image_url' => null,
+                'description' => 'Kacamata hitam terpolarisasi UV400 untuk mengurangi silau pantulan air laut.',
+                'price'       => 150000.00,
+                'stock'       => 30,
+                'category'    => 'Deck Wear',
+                'image_url'   => 'images/products/polarized-sunglasses.png',
+                'sold_count'  => 390,
+                'rating'      => 4.6,
+            ]
+        );
+        Product::updateOrCreate(
+            ['store_id' => $multiStore->id, 'name' => 'Kaos Maritim Anchor Crew'],
+            [
+                'description' => 'Kaos katun bambu 30s premium bermotif jangkar laut, sangat adem dan nyaman digunakan.',
+                'price'       => 95000.00,
+                'stock'       => 50,
+                'category'    => 'Deck Wear',
+                'image_url'   => 'images/products/anchor-tshirt.png',
+                'sold_count'  => 1240,
+                'rating'      => 4.9,
             ]
         );
 
