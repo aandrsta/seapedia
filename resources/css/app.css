@@ -165,7 +165,6 @@
 .carousel-container {
     position: relative;
     overflow: hidden;
-    border-radius: 20px;
 }
 
 .carousel-track {
@@ -182,7 +181,6 @@
 .carousel-progress-bar {
     height: 3px;
     background: rgba(255, 255, 255, 0.2);
-    border-radius: 0 0 20px 20px;
     overflow: hidden;
     position: absolute;
     bottom: 0;
@@ -339,26 +337,27 @@
 }
 
 .collection-card:hover {
-    transform: scale-[1.01];
+    transform: scale-[1.015];
 }
 
 .collection-card-content {
     position: relative;
     z-index: 20;
-    transform: translateY(10px);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.collection-card:hover .collection-card-content {
-    transform: translateY(0);
+.collection-card-description {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
 }
 
-.collection-btn {
-    @apply inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-teal-400 mt-3 opacity-0 translate-y-2 transition-all duration-300;
-}
-
-.collection-card:hover .collection-btn {
-    @apply opacity-100 translate-y-0;
+.collection-card:hover .collection-card-description {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: 8px;
 }
 
 /* ============================================

@@ -30,7 +30,6 @@
         <!-- Bottom Copyright Row -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[10px] text-navy-400 font-bold uppercase tracking-wider">
             <span>&copy; {{ date('Y') }} SEAPEDIA. ALL RIGHTS RESERVED.</span>
-            <span>MADE WITH ❤ FOR COMPFEST 18</span>
         </div>
     </div>
 </footer>

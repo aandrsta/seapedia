@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Review;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class CategoryController extends Controller
 {
     public function index()
     {
-        $reviews = Review::latest()->get();
-        // Fetch 12 latest products for the recommendation grid
-        $products = Product::with('store')->latest()->take(12)->get();
-        
         // Fetch unique categories dynamically and map descriptions & images
         $categories = Product::select('category')
             ->distinct()
@@ -24,7 +19,7 @@ class HomeController extends Controller
                 $desc = '';
                 $image = '';
                 if ($name === 'Deep Sea Gear') {
-                    $desc = 'Pancing profesional, sonar laut, jangkar, dan navigasi.';
+                    $desc = 'Pancing profesional, sonar laut, jangkar, dan navigasi laut.';
                     $image = 'images/collections/deep-sea.png';
                 } elseif ($name === 'Deck Wear') {
                     $desc = 'Tas dry bag marine, kacamata terpolarisasi, dan perlengkapan deck kapal.';
@@ -48,7 +43,7 @@ class HomeController extends Controller
                     'image' => $image,
                 ];
             });
-            
-        return view('home', compact('reviews', 'products', 'categories'));
+
+        return view('categories.index', compact('categories'));
     }
 }

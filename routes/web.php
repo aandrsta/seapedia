@@ -27,6 +27,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/products', [ProductCatalogController::class, 'index'])->name('products.index');
 Route::get('/products/{id}', [ProductCatalogController::class, 'show'])->name('products.show');
 Route::get('/stores/{id}', [ProductCatalogController::class, 'showStore'])->name('stores.show');
+Route::get('/categories', [\App\Http\Controllers\CategoryController::class, 'index'])->name('categories.index');
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 // Guest only routes

@@ -38,8 +38,8 @@ class Level1Test extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Katalog Produk');
-        $response->assertSee('Kamera DSLR Professional');
-        $response->assertSee('Toko Samudra'); // store info must be visible
+        $response->assertSee('Baju Selam Neoprene 3mm');
+        $response->assertSee('Toko Samudra Dive'); // store info must be visible
     }
 
     /** @test */
