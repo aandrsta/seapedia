@@ -91,9 +91,9 @@
         <!-- Role Handling -->
         <div>
             <!-- Normal Buyer Role Hidden Mode -->
-            <div x-show="!isMitra">
+            <template x-if="!isMitra">
                 <input type="hidden" name="roles[]" value="buyer">
-            </div>
+            </template>
 
             <!-- Mitra Business Options Mode -->
             <div x-show="isMitra" x-cloak class="space-y-4 pt-2">

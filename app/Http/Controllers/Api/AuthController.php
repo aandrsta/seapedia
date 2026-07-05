@@ -35,7 +35,8 @@ class AuthController extends Controller
         ]);
 
         $roles = [];
-        foreach ($request->roles as $role) {
+        $uniqueRoles = array_unique($request->roles);
+        foreach ($uniqueRoles as $role) {
             UserRole::create([
                 'user_id' => $user->id,
                 'role' => $role,

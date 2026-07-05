@@ -500,7 +500,7 @@
                 <div>
                     <span class="text-[10px] font-black uppercase tracking-widest text-teal-600 block mb-2">TESTIMONIALS</span>
                     <h2 class="text-3xl font-black text-navy-900 tracking-tight leading-tight mb-4">
-                        Suara Pengguna<br>SEAPEDIA
+                        Suara Pengguna SEAPEDIA
                     </h2>
                     <p class="text-xs text-sand-500 font-semibold leading-relaxed mb-6">
                         Ulasan nyata dari para pembeli dan penjual terverifikasi di ekosistem kemaritiman Seapedia.

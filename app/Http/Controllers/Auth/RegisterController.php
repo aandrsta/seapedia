@@ -43,8 +43,9 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Assign selected roles
-        foreach ($request->roles as $role) {
+        // Assign selected roles with array_unique to prevent database constraint crash
+        $uniqueRoles = array_unique($request->roles);
+        foreach ($uniqueRoles as $role) {
             UserRole::create([
                 'user_id' => $user->id,
                 'role' => $role,
