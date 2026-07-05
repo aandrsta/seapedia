@@ -1,0 +1,46 @@
+@extends('layouts.dashboard')
+
+@section('title', 'Admin Dashboard - SEAPEDIA')
+@section('page_title', 'Admin Overview')
+
+@section('content')
+<div class="card p-8 bg-white border border-sand-300 shadow-warm">
+    <div class="flex items-center gap-4 mb-6">
+        <div class="p-3 bg-teal-500/10 text-teal-600 rounded-full">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+        </div>
+        <div>
+            <h2 class="text-2xl font-bold text-navy-800">Selamat Datang di Portal Admin SEAPEDIA!</h2>
+            <p class="text-sm text-sand-600">Anda masuk dengan wewenang penuh sebagai Administrator.</p>
+        </div>
+    </div>
+
+    <!-- Alert / Info -->
+    <div class="bg-navy-50 border-l-4 border-navy-600 p-4 rounded-sea mb-8">
+        <p class="text-xs text-navy-800 leading-relaxed font-semibold">
+            Sebagai Administrator, Anda bertanggung jawab untuk mengawasi seluruh jalannya ekosistem transaksi, mengelola data diskon, memicu proses overdue pengiriman secara terjadwal, dan mengaudit ulasan serta keamanan sistem.
+        </p>
+    </div>
+
+    <!-- Overview Statistics Placeholder -->
+    <h3 class="text-sm font-bold text-navy-600 uppercase tracking-wider mb-4">Ringkasan Sistem (Level 6)</h3>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div class="p-5 rounded-sea border border-sand-300 bg-sand-50/50">
+            <p class="text-xs text-sand-500 font-bold uppercase tracking-wider">Total Pengguna</p>
+            <p class="text-2xl font-black text-navy-800 mt-2">-</p>
+        </div>
+        <div class="p-5 rounded-sea border border-sand-300 bg-sand-50/50">
+            <p class="text-xs text-sand-500 font-bold uppercase tracking-wider">Total Toko</p>
+            <p class="text-2xl font-black text-navy-800 mt-2">-</p>
+        </div>
+        <div class="p-5 rounded-sea border border-sand-300 bg-sand-50/50">
+            <p class="text-xs text-sand-500 font-bold uppercase tracking-wider">Total Transaksi</p>
+            <p class="text-2xl font-black text-navy-800 mt-2">-</p>
+        </div>
+        <div class="p-5 rounded-sea border border-sand-300 bg-sand-50/50">
+            <p class="text-xs text-sand-500 font-bold uppercase tracking-wider">Overdue Orders</p>
+            <p class="text-2xl font-black text-navy-800 mt-2">-</p>
+        </div>
+    </div>
+</div>
+@endsection

@@ -17,3 +17,10 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/.gemini
+/.claude
+/.impeccable
+*.txt
+/Tugas Software Engineering Academy COMPFEST 18.pdf
+/DESIGN.md
+/PRODUCT.md
