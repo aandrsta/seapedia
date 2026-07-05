@@ -1,66 +1,191 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SEAPEDIA — Marketplace Multi-Peran (Level 1)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Welcome to **SEAPEDIA**, a specialized multi-role e-commerce marketplace connecting Buyers, Sellers, Drivers, and Admins. This project is built using Laravel 10, Tailwind CSS, and Alpine.js.
 
-## About Laravel
+At this level (Level 1), the application provides a public marketplace interface, authentication, dynamic active role management, XSS-prevented application reviews, and reusable UI components.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🏗️ Architecture Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+SEAPEDIA utilizes a **monolith architecture** with double-entry authentication to satisfy both web and API requirements:
+1. **Web Interface (Session-Auth):** Uses Laravel Blade templates with Tailwind CSS and Alpine.js. The session state is maintained via cookies.
+2. **API Backend (Token-Auth):** Protects routes under `/api/*` using **Laravel Sanctum** token-based authentication.
 
-## Learning Laravel
+### Multi-Role & Active Role Selection
+Unlike traditional single-role catalogs, a user in SEAPEDIA (non-admin) can own multiple roles at the same time (e.g., being a **Buyer** and a **Seller**). 
+- **Session verification:** Upon logging in, if a user has multiple roles, they must choose an active role via the `/select-role` page.
+- **Middleware protection:** The `EnsureRoleSelected` middleware redirects the user to the selection page if they attempt to access dashboards without choosing an active role. The `CheckActiveRole` middleware restricts dashboard routes to the chosen active role only.
+- **API implementation:** For API routes, the active role context is passed through the `X-Active-Role` HTTP request header.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠️ Getting Started & Setup
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Follow these steps to run SEAPEDIA locally:
 
-## Laravel Sponsors
+### 1. Prerequisite
+Ensure you have PHP 8.1+ and MySQL/MariaDB installed (recommended to use **Laragon** on Windows).
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install Dependencies
+Clone the repository, enter the directory, and install PHP and JavaScript packages:
+```bash
+composer install
+npm install
+```
 
-### Premium Partners
+### 3. Environment Configuration
+Copy the sample environment file and configure your database settings:
+```bash
+cp .env.example .env
+```
+Inside your `.env` file, set your database credentials:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=seapedia
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 4. Application Key Generation
+```bash
+php artisan key:generate
+```
 
-## Contributing
+### 5. Run Migrations & Seeders
+Execute the migrations to generate tables and seed the database with demo accounts, initial products, and reviews:
+```bash
+php artisan migrate:fresh --seed
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 6. Build Assets
+Run Vite in development mode to compile Tailwind CSS and Alpine.js assets:
+```bash
+npm run dev
+```
 
-## Code of Conduct
+### 7. Run Server
+Start the local development server:
+```bash
+php artisan serve
+```
+The application will be accessible at `http://127.0.0.1:8000` (or `http://seapedia.test/` if configured in Laragon).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 👥 Seeded Demo Accounts
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+You can log in to the web app or API with the following credentials (password is `password` for all accounts):
 
-## License
+| Username | Roles | Purpose |
+| :--- | :--- | :--- |
+| `admin` | Admin | Accesses marketplace monitoring and configurations. |
+| `buyer` | Buyer | Explores catalog, manages wallet, and checkouts. |
+| `seller` | Seller | Manages store profile and product catalog listing. |
+| `driver` | Driver | Accepts jobs, processes deliveries, and tracks earnings. |
+| `multi` | Buyer, Seller, Driver | Tests multi-role selection flow and switching dashboards. |
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 📋 API Endpoints Documentation
+
+All API requests expect the header `Accept: application/json`. Authenticated routes require `Authorization: Bearer <your_access_token>`.
+
+### 1. User Registration
+- **Endpoint:** `POST /api/register`
+- **Request Body:**
+  ```json
+  {
+    "name": "John Doe",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "password": "password123",
+    "roles": ["buyer", "seller"]
+  }
+  ```
+- **Response (201 Created):**
+  ```json
+  {
+    "message": "Registrasi berhasil.",
+    "access_token": "1|laravel_sanctum_token_string...",
+    "token_type": "Bearer",
+    "user": {
+      "id": 5,
+      "name": "John Doe",
+      "username": "johndoe",
+      "email": "john@example.com",
+      "roles": ["buyer", "seller"]
+    }
+  }
+  ```
+
+### 2. User Login
+- **Endpoint:** `POST /api/login`
+- **Request Body:**
+  ```json
+  {
+    "login": "johndoe",
+    "password": "password123"
+  }
+  ```
+- **Response (200 OK):**
+  ```json
+  {
+    "message": "Login berhasil.",
+    "access_token": "2|laravel_sanctum_token_string...",
+    "token_type": "Bearer",
+    "user": {
+      "id": 5,
+      "name": "John Doe",
+      "username": "johndoe",
+      "email": "john@example.com",
+      "roles": ["buyer", "seller"]
+    }
+  }
+  ```
+
+### 3. Get User Profile
+Retrieves user profile and checks the active role context.
+- **Endpoint:** `GET /api/profile`
+- **Headers:**
+  - `Authorization: Bearer <token>`
+  - `X-Active-Role: buyer` (the role context you are testing)
+- **Response (200 OK):**
+  ```json
+  {
+    "id": 5,
+    "name": "John Doe",
+    "username": "johndoe",
+    "email": "john@example.com",
+    "roles": ["buyer", "seller"],
+    "active_role": "buyer"
+  }
+  ```
+
+### 4. User Logout
+Revokes the current access token.
+- **Endpoint:** `POST /api/logout`
+- **Headers:**
+  - `Authorization: Bearer <token>`
+- **Response (200 OK):**
+  ```json
+  {
+    "message": "Logout berhasil."
+  }
+  ```
+
+---
+
+## 🧪 Testing
+
+Automated tests are located in `tests/Feature/Level1Test.php`. You can execute them by running:
+```bash
+php artisan test
+```
+The test suite validates:
+- Public catalog routing and details.
+- User registration, login, and active role middleware routing constraints.
+- Review submission and XSS tag sanitization prevention.
+- API profile details and token generation.

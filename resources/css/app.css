@@ -337,7 +337,7 @@
 }
 
 .collection-card:hover {
-    transform: scale-[1.015];
+    transform: scale(1.015);
 }
 
 .collection-card-content {
