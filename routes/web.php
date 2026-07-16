@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     // Dashboard routes protected by active role middleware
     Route::middleware(['ensure_role'])->group(function () {
         Route::get('/dashboard/buyer', function () {
-            return view('dashboard.buyer.index');
+            return redirect()->route('home');
         })->middleware('role:buyer')->name('dashboard.buyer');
 
         Route::get('/dashboard/seller', function () {

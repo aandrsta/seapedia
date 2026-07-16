@@ -105,7 +105,7 @@
 
                 <!-- Partnership CTA – w-fit agar lebar mengikuti konten card sendiri, bukan stretch kolom -->
                 @if(!in_array('seller', $roles) || !in_array('driver', $roles))
-                    <div class="w-fit animate-cinematic delay-300">
+                    <div class="w-100 animate-cinematic delay-300">
                         <div class="card p-6 bg-gradient-to-br from-navy-900 to-navy-950 text-white rounded-[20px] relative overflow-hidden shadow-warm-lg border border-navy-800">
                             <!-- Background Pattern -->
                             <div class="absolute inset-0 dot-pattern opacity-10 pointer-events-none"></div>
