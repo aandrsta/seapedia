@@ -62,21 +62,20 @@ class Level1Test extends TestCase
             'email' => 'john@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-            'roles' => ['buyer', 'seller'],
         ]);
 
-        $response->assertRedirect(route('home'));
+        $response->assertRedirect(route('login'));
         
         $this->assertDatabaseHas('users', ['username' => 'johndoe', 'email' => 'john@example.com']);
         $user = User::where('username', 'johndoe')->first();
         
         $this->assertDatabaseHas('user_roles', ['user_id' => $user->id, 'role' => 'buyer']);
-        $this->assertDatabaseHas('user_roles', ['user_id' => $user->id, 'role' => 'seller']);
+        $this->assertDatabaseMissing('user_roles', ['user_id' => $user->id, 'role' => 'seller']);
         $this->assertDatabaseHas('wallets', ['user_id' => $user->id, 'balance' => 0.00]);
     }
 
     /** @test */
-    public function login_authenticates_and_clears_active_role_session()
+    public function login_authenticates_and_auto_assigns_active_role()
     {
         $user = User::where('username', 'buyer')->first();
 
@@ -87,7 +86,8 @@ class Level1Test extends TestCase
 
         $response->assertRedirect(route('home'));
         $this->assertAuthenticatedAs($user);
-        $this->assertNull(session('active_role'));
+        // Single-role users get their role auto-assigned on login
+        $this->assertEquals('buyer', session('active_role'));
     }
 
     /** @test */

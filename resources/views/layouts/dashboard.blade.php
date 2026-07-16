@@ -48,9 +48,17 @@
                     Peran Aktif: {{ session('active_role', 'none') }}
                 </span>
 
-                <div class="hidden sm:block text-right">
-                    <p class="text-sm font-bold text-navy-800">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-sand-500">{{ auth()->user()->email }}</p>
+                <div class="hidden sm:flex items-center gap-3 text-right border-l border-sand-300 pl-4">
+                    <div>
+                        <p class="text-sm font-bold text-navy-800">{{ auth()->user()->name }}</p>
+                        <p class="text-xs text-sand-500">{{ auth()->user()->email }}</p>
+                    </div>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="p-2 text-sand-500 hover:text-coral-500 hover:bg-sand-100 rounded-full transition-colors" title="Keluar">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

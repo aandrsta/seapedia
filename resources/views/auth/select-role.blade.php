@@ -6,8 +6,8 @@
 <div class="space-y-6">
     <!-- Header -->
     <div class="space-y-2">
-        <h2 class="text-3xl font-black text-navy-900 tracking-tight leading-none">Pilih Peran Sesi</h2>
-        <p class="text-sand-500 text-sm">Pilih salah satu peran aktif Anda untuk memulai sesi ini.</p>
+        <h2 class="text-3xl font-black text-white tracking-tight leading-none">Pilih Peran Sesi</h2>
+        <p class="text-sand-100 text-sm">Pilih salah satu peran aktif Anda untuk memulai sesi ini.</p>
     </div>
 
     <!-- Selection Form -->
@@ -25,11 +25,11 @@
                             @if($role === 'admin')
                                 Administrator
                             @elseif($role === 'buyer')
-                                Pembeli
+                                Buyer
                             @elseif($role === 'seller')
-                                Penjual Toko
+                                Seller
                             @elseif($role === 'driver')
-                                Kurir
+                                Driver
                             @endif
                         </span>
                         <span class="text-[11px] text-sand-500 font-medium leading-relaxed">
@@ -48,7 +48,7 @@
             @endforeach
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg w-full mt-4 font-black tracking-widest text-navy-900 shadow-md">
+        <button type="submit" class="btn btn-primary btn-lg w-full mt-4 font-black tracking-widest text-white shadow-md">
             Lanjutkan Sesi
         </button>
     </form>

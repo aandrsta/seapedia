@@ -77,22 +77,23 @@
             </a>
 
         @elseif($role === 'seller')
-            <a href="{{ route('dashboard.seller') }}" class="sidebar-item {{ request()->routeIs('dashboard.seller') ? 'sidebar-item-active' : '' }}">
+            <a href="{{ route('dashboard.seller') }}" class="sidebar-item {{ request()->routeIs('dashboard.seller') ? 'sidebar-item-active' : 'hover:bg-navy-600' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                 Profil Toko
             </a>
-            <a href="#" class="sidebar-item opacity-50 cursor-not-allowed">
+            <a href="{{ route('seller.products.index') }}" class="sidebar-item {{ request()->routeIs('seller.products.*') ? 'sidebar-item-active' : 'hover:bg-navy-600' }}">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
                 Kelola Produk
             </a>
-            <a href="#" class="sidebar-item opacity-50 cursor-not-allowed">
+            <a href="#" class="sidebar-item opacity-40 cursor-not-allowed">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                Pesanan Masuk
+                Pesanan Masuk <span class="ml-auto text-[9px] bg-navy-600 px-1.5 py-0.5 rounded">Soon</span>
             </a>
-            <a href="#" class="sidebar-item opacity-50 cursor-not-allowed">
+            <a href="#" class="sidebar-item opacity-40 cursor-not-allowed">
                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2"></path></svg>
-                Laporan Keuangan
+                Laporan Keuangan <span class="ml-auto text-[9px] bg-navy-600 px-1.5 py-0.5 rounded">Soon</span>
             </a>
+
 
         @elseif($role === 'driver')
             <a href="{{ route('dashboard.driver') }}" class="sidebar-item {{ request()->routeIs('dashboard.driver') ? 'sidebar-item-active' : '' }}">

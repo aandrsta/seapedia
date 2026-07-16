@@ -1,4 +1,4 @@
-<header class="bg-white border-b border-sand-200 shadow-warm sticky top-0 z-40" x-data="{ mobileOpen: false }">
+<header class="bg-white border-b border-sand-200 shadow-warm sticky top-0 z-40" x-data="{ mobileOpen: false, profileOpen: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 gap-4">
 
@@ -24,7 +24,7 @@
             </div>
 
             <!-- Right Side: Cart + Auth -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
 
                 <!-- Cart Icon (Always Visible) -->
                 <a href="{{ auth()->check() ? '#' : route('login') }}" id="navbar-cart-btn" class="relative p-2 text-navy-800 hover:text-teal-600 transition-colors" title="Keranjang">
@@ -34,22 +34,127 @@
                     <span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-coral-500 text-white text-[9px] font-black rounded-sea flex items-center justify-center leading-none">0</span>
                 </a>
 
-                <!-- Divider -->
-                <div class="w-px h-6 bg-sand-200"></div>
-
                 @auth
-                    <!-- Wallet Balance (Buyer only) -->
-                    @if(session('active_role') === 'buyer' && auth()->user()->wallet)
-                        <div class="hidden lg:flex items-center gap-1.5 bg-teal-50 text-teal-700 px-3 py-1.5 border border-teal-100 text-xs font-bold">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 12m18 0c0 .621-.504 1.125-1.125 1.125H3.375A1.125 1.125 0 012.25 12m18 0v1.5a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 13.5V12"></path></svg>
-                            <span>Rp {{ number_format(auth()->user()->wallet->balance, 0, ',', '.') }}</span>
-                        </div>
-                    @endif
+                    <!-- Profile Avatar Trigger (with dropdown) -->
+                    <div class="relative" x-data @click.outside="profileOpen = false">
+                        <button
+                            id="navbar-profile-btn"
+                            @click="profileOpen = !profileOpen"
+                            :class="profileOpen ? 'ring-2 ring-teal-400 ring-offset-2 scale-105' : 'hover:scale-105'"
+                            class="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 text-white font-extrabold text-[11px] shadow-warm-sm border border-teal-300 transition-all duration-150 shrink-0 cursor-pointer focus:outline-none"
+                            title="Profil Saya"
+                            aria-haspopup="true"
+                            :aria-expanded="profileOpen"
+                        >
+                            {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                        </button>
 
-                    <!-- Active Role Badge -->
-                    <span class="hidden sm:inline-flex items-center text-[9px] bg-navy-100 text-navy-800 px-2 py-0.5 uppercase tracking-widest font-black border border-navy-200">
-                        {{ session('active_role') }}
-                    </span>
+                        <!-- Profile Dropdown Panel -->
+                        <div
+                            x-show="profileOpen"
+                            x-cloak
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
+                            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                            x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
+                            class="absolute right-0 top-full mt-3 w-64 bg-white rounded-[16px] shadow-[0_20px_60px_rgba(11,19,43,0.15)] border border-sand-200 overflow-hidden z-50"
+                        >
+                            <!-- User Info Header -->
+                            <div class="px-4 py-4 bg-gradient-to-br from-teal-600 to-teal-700 relative overflow-hidden">
+                                <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px); background-size: 16px 16px;"></div>
+                                <div class="relative flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center font-black text-white text-sm shrink-0">
+                                        {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-white font-black text-sm leading-tight truncate">{{ auth()->user()->name }}</p>
+                                        <p class="text-teal-100 text-[10px] font-medium truncate">@ {{ auth()->user()->username }}</p>
+                                    </div>
+                                </div>
+                                @if(session('active_role'))
+                                    <div class="relative mt-3">
+                                        <span class="inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-widest bg-white/20 text-white border border-white/20 px-2 py-0.5 rounded-full">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-teal-300 inline-block"></span>
+                                            {{ session('active_role') }}
+                                        </span>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Menu Items -->
+                            <div class="py-2">
+                                <!-- Lihat Profil -->
+                                <a href="{{ route('profile') }}"
+                                   @click="profileOpen = false"
+                                   class="flex items-center gap-3 px-4 py-3 text-xs font-bold text-navy-800 hover:bg-sand-50 hover:text-teal-700 transition-colors group">
+                                    <span class="w-8 h-8 rounded-[10px] bg-sand-100 group-hover:bg-teal-100 flex items-center justify-center transition-colors shrink-0">
+                                        <svg class="w-4 h-4 text-navy-600 group-hover:text-teal-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="leading-tight">Lihat Profil</p>
+                                        <p class="text-[10px] font-medium text-sand-400 mt-0.5">Kelola akun & kemitraan</p>
+                                    </div>
+                                </a>
+
+                                <!-- Riwayat Pesanan -->
+                                <a href="#"
+                                   @click="profileOpen = false"
+                                   class="flex items-center gap-3 px-4 py-3 text-xs font-bold text-navy-800 hover:bg-sand-50 hover:text-teal-700 transition-colors group">
+                                    <span class="w-8 h-8 rounded-[10px] bg-sand-100 group-hover:bg-teal-100 flex items-center justify-center transition-colors shrink-0">
+                                        <svg class="w-4 h-4 text-navy-600 group-hover:text-teal-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="leading-tight">Riwayat Pesanan</p>
+                                        <p class="text-[10px] font-medium text-sand-400 mt-0.5">Lacak & kelola pesanan</p>
+                                    </div>
+                                </a>
+
+
+                                @if(in_array(session('active_role'), ['seller', 'driver', 'admin']))
+                                <!-- Dashboard -->
+                                <a href="{{ route('dashboard.' . session('active_role')) }}"
+                                   @click="profileOpen = false"
+                                   class="flex items-center gap-3 px-4 py-3 text-xs font-bold text-navy-800 hover:bg-sand-50 hover:text-teal-700 transition-colors group">
+                                    <span class="w-8 h-8 rounded-[10px] bg-sand-100 group-hover:bg-teal-100 flex items-center justify-center transition-colors shrink-0">
+                                        <svg class="w-4 h-4 text-navy-600 group-hover:text-teal-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <p class="leading-tight">Dashboard</p>
+                                        <p class="text-[10px] font-medium text-sand-400 mt-0.5">Panel {{ ucfirst(session('active_role')) }}</p>
+                                    </div>
+                                </a>
+                                @endif
+
+                                <!-- Divider -->
+                                <div class="mx-4 my-1 border-t border-sand-100"></div>
+
+                                <!-- Logout -->
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit"
+                                            class="w-full flex items-center gap-3 px-4 py-3 text-xs font-bold text-coral-600 hover:bg-coral-50 transition-colors group">
+                                        <span class="w-8 h-8 rounded-[10px] bg-coral-50 group-hover:bg-coral-100 flex items-center justify-center transition-colors shrink-0">
+                                            <svg class="w-4 h-4 text-coral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            <p class="leading-tight">Keluar</p>
+                                            <p class="text-[10px] font-medium text-coral-400 mt-0.5">Akhiri sesi ini</p>
+                                        </div>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Role Switch -->
                     @if(auth()->user()->roles->count() > 1)
@@ -58,25 +163,8 @@
                         </a>
                     @endif
 
-                    <!-- Dashboard -->
-                    @if(session('active_role'))
-                        <a href="{{ route('dashboard.' . session('active_role')) }}" id="navbar-dashboard-btn" class="hidden sm:inline-flex btn btn-secondary btn-sm text-[10px] tracking-widest font-black">
-                            DASHBOARD
-                        </a>
-                    @endif
+                  
 
-                    <!-- Profile -->
-                    <a href="{{ route('profile') }}" class="p-1.5 text-navy-800 hover:text-teal-600 hover:bg-sand-50 transition-all" title="Profil Saya">
-                        <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
-                    </a>
-
-                    <!-- Logout -->
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="p-1.5 text-navy-800 hover:text-coral-500 hover:bg-sand-50 transition-all" title="Keluar">
-                            <svg class="w-4.5 h-4.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"></path></svg>
-                        </button>
-                    </form>
                 @else
                     <!-- Guest: Login + Register -->
                     <a href="{{ route('login') }}" id="navbar-login-btn" class="btn btn-ghost text-[10px] font-black uppercase tracking-widest border border-sand-300 hover:border-navy-900 text-navy-900">MASUK</a>
@@ -117,7 +205,7 @@
                     Katalog Produk
                 </a>
                 @auth
-                    @if(session('active_role'))
+                    @if(in_array(session('active_role'), ['seller', 'driver', 'admin']))
                         <a href="{{ route('dashboard.' . session('active_role')) }}" class="flex items-center gap-3 px-3 py-2.5 text-xs font-black uppercase tracking-widest text-navy-900 hover:bg-sand-50 transition-colors">
                             <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"></path></svg>
                             Dashboard
@@ -126,6 +214,10 @@
                     <a href="{{ route('profile') }}" class="flex items-center gap-3 px-3 py-2.5 text-xs font-black uppercase tracking-widest text-navy-900 hover:bg-sand-50 transition-colors">
                         <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"></path></svg>
                         Profil Saya
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-xs font-black uppercase tracking-widest text-navy-900 hover:bg-sand-50 transition-colors">
+                        <svg class="w-5 h-5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"></path></svg>
+                        Riwayat Pesanan
                     </a>
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf

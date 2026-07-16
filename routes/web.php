@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/select-role', [RoleSelectionController::class, 'select'])->name('select-role.store');
     
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/profile/partnership', [ProfileController::class, 'partnership'])->name('profile.partnership');
+    Route::post('/profile/partnership', [ProfileController::class, 'storePartnership'])->name('profile.partnership.store');
 
     // Dashboard routes protected by active role middleware
     Route::middleware(['ensure_role'])->group(function () {

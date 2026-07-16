@@ -3,14 +3,15 @@
 @section('title', 'Katalog Produk - SEAPEDIA')
 
 @section('content')
-<!-- Hero Header for Catalog -->
-<div class="bg-navy-800 text-white pt-16 pb-12 relative overflow-hidden animate-cinematic">
-    <div class="absolute inset-0 dot-pattern-dark opacity-50"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <h1 class="text-4xl sm:text-5xl font-black tracking-tight mb-4">Katalog <span class="text-teal-400">Pilihan</span></h1>
-        <p class="text-lg text-sand-300 max-w-2xl font-medium">Temukan penawaran terbaik dari kreator dan penjual independen di seluruh ekosistem.</p>
-    </div>
-</div>
+<!-- Hero Header for Catalog Component -->
+<x-header 
+    type="hero"
+    title="Katalog" 
+    highlight="Pilihan" 
+    description="Temukan penawaran terbaik dari kreator dan penjual independen di seluruh ekosistem."
+/>
+
+
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 

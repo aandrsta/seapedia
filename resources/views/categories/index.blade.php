@@ -6,14 +6,12 @@
 <section class="bg-sand-100 py-16 min-h-[calc(100vh-16rem)]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <!-- Header -->
-        <div class="mb-12 text-left animate-cinematic">
-            <span class="text-[10px] font-black uppercase tracking-widest text-teal-600 block mb-1">DISCOVER GEAR & APPAREL</span>
-            <h1 class="text-4xl font-black text-navy-900 tracking-tight leading-none">KATALOG KATEGORI</h1>
-            <p class="text-sm text-sand-500 font-medium mt-3 max-w-lg leading-relaxed">
-                Jelajahi produk maritim kami berdasarkan kategori pilihan untuk mempermudah navigasi belanja Anda.
-            </p>
-        </div>
+        <!-- Header Component -->
+        <x-header 
+            title="Katalog" 
+            highlight="Kategori" 
+            description="Jelajahi produk maritim kami berdasarkan kategori pilihan untuk mempermudah navigasi belanja Anda."
+        />
 
         <!-- Uniform 3-Column Grid Layout (Large Category Cards) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-cinematic delay-100">

@@ -19,7 +19,7 @@ class AuthController extends Controller
             'username' => ['required', 'string', 'alpha_dash', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
-            'roles' => ['required', 'array', 'min:1'],
+            'roles' => ['nullable', 'array'],
             'roles.*' => ['in:buyer,seller,driver'],
         ]);
 
@@ -35,7 +35,8 @@ class AuthController extends Controller
         ]);
 
         $roles = [];
-        $uniqueRoles = array_unique($request->roles);
+        $rolesInput = $request->roles ?: ['buyer'];
+        $uniqueRoles = array_unique($rolesInput);
         foreach ($uniqueRoles as $role) {
             UserRole::create([
                 'user_id' => $user->id,

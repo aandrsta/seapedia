@@ -35,9 +35,20 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
             $request->session()->regenerate();
-            
-            // Clear active role to force role selection (or auto-select in middleware)
-            session()->forget('active_role');
+
+            $user = Auth::user();
+            $roles = $user->roles->pluck('role')->toArray();
+
+            // Auto-assign active_role on login
+            if (count($roles) === 1) {
+                // Only one role — set it immediately (covers the common buyer-only case)
+                session(['active_role' => $roles[0]]);
+            } elseif (in_array('admin', $roles)) {
+                session(['active_role' => 'admin']);
+            } else {
+                // Multiple roles — clear so EnsureRoleSelected redirects to select-role when needed
+                session()->forget('active_role');
+            }
 
             return redirect()->intended(route('home'));
         }

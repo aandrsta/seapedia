@@ -20,6 +20,10 @@
     .btn-secondary {
         @apply bg-navy-900 hover:bg-navy-800 text-white shadow-warm hover:shadow-warm-md focus:ring-navy-900/50;
     }
+
+    .btn-light {
+         @apply bg-teal-700 hover:bg-teal-800 text-white shadow-warm hover:shadow-warm-md focus:ring-teal-800/50;
+    }
     
     .btn-ghost {
         @apply bg-transparent hover:bg-sand-100 text-navy-800;
