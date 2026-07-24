@@ -55,6 +55,12 @@ Route::middleware('auth')->group(function () {
             return redirect()->route('home');
         })->middleware('role:buyer')->name('dashboard.buyer');
 
+        // Buyer Specific Routes
+        Route::middleware('role:buyer')->group(function () {
+            Route::get('/buyer/wallet', [\App\Http\Controllers\Buyer\WalletController::class, 'index'])->name('buyer.wallet');
+            Route::post('/buyer/wallet/topup', [\App\Http\Controllers\Buyer\WalletController::class, 'topup'])->name('buyer.wallet.topup');
+        });
+
         Route::get('/dashboard/seller', function () {
             return view('dashboard.seller.index');
         })->middleware('role:seller')->name('dashboard.seller');

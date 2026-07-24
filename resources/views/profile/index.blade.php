@@ -78,7 +78,7 @@
                                 <span class="text-sm font-black text-navy-900">
                                     Rp {{ number_format($user->wallet ? $user->wallet->balance : 0, 0, ',', '.') }}
                                 </span>
-                                <p class="text-[10px] text-teal-600 font-semibold mt-0.5">Top-up (Level 3)</p>
+                                <a href="{{ route('buyer.wallet') }}" class="text-[10px] text-teal-600 hover:text-teal-500 font-bold block mt-0.5 underline underline-offset-2 transition-colors">Top-up &amp; Detail</a>
                             </div>
                         </div>
 
