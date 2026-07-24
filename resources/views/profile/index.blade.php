@@ -78,7 +78,7 @@
                                 <span class="text-sm font-black text-navy-900">
                                     Rp {{ number_format($user->wallet ? $user->wallet->balance : 0, 0, ',', '.') }}
                                 </span>
-                                <p class="text-[10px] text-teal-600 font-semibold mt-0.5">Top-up (Level 3)</p>
+                                <a href="{{ route('buyer.wallet') }}" class="text-[10px] text-teal-600 hover:text-teal-500 font-bold block mt-0.5 underline underline-offset-2 transition-colors">Top-up &amp; Detail</a>
                             </div>
                         </div>
 
@@ -105,7 +105,7 @@
 
                 <!-- Partnership CTA – w-fit agar lebar mengikuti konten card sendiri, bukan stretch kolom -->
                 @if(!in_array('seller', $roles) || !in_array('driver', $roles))
-                    <div class="w-fit animate-cinematic delay-300">
+                    <div class="w-100 animate-cinematic delay-300">
                         <div class="card p-6 bg-gradient-to-br from-navy-900 to-navy-950 text-white rounded-[20px] relative overflow-hidden shadow-warm-lg border border-navy-800">
                             <!-- Background Pattern -->
                             <div class="absolute inset-0 dot-pattern opacity-10 pointer-events-none"></div>

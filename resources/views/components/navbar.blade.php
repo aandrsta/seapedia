@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="min-w-0">
                                         <p class="text-white font-black text-sm leading-tight truncate">{{ auth()->user()->name }}</p>
-                                        <p class="text-teal-100 text-[10px] font-medium truncate">@ {{ auth()->user()->username }}</p>
+                                        <p class="text-teal-100 text-[10px] font-medium truncate"> {{ '@' . auth()->user()->username }}</p>
                                     </div>
                                 </div>
                                 @if(session('active_role'))
@@ -85,6 +85,7 @@
 
                             <!-- Menu Items -->
                             <div class="py-2">
+                                @if(session('active_role') == "buyer")
                                 <!-- Lihat Profil -->
                                 <a href="{{ route('profile') }}"
                                    @click="profileOpen = false"
@@ -114,6 +115,7 @@
                                         <p class="text-[10px] font-medium text-sand-400 mt-0.5">Lacak & kelola pesanan</p>
                                     </div>
                                 </a>
+                                @endif
 
 
                                 @if(in_array(session('active_role'), ['seller', 'driver', 'admin']))
