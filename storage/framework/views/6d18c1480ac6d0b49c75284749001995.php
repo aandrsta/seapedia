@@ -41,7 +41,7 @@
                         <td class="px-5 py-4">
                             <div class="flex items-center gap-3">
                                 <?php if($product->image_url): ?>
-                                    <img src="<?php echo e($product->image_url); ?>" alt="<?php echo e($product->name); ?>" class="w-11 h-11 object-cover rounded-lg border border-sand-200 shrink-0">
+                                    <img src="<?php echo e(\Illuminate\Support\Str::startsWith($product->image_url, ['http://', 'https://']) ? $product->image_url : (\Illuminate\Support\Str::startsWith($product->image_url, 'images/') ? asset($product->image_url) : asset('storage/' . $product->image_url))); ?>" alt="<?php echo e($product->name); ?>" class="w-11 h-11 object-cover rounded-lg border border-sand-200 shrink-0">
                                 <?php else: ?>
                                     <div class="w-11 h-11 rounded-lg bg-sand-100 border border-sand-200 flex items-center justify-center text-xs font-bold text-sand-600 uppercase shrink-0">
                                         <?php echo e(substr($product->name, 0, 2)); ?>

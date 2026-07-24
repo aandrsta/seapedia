@@ -34,7 +34,7 @@
                         <td class="px-5 py-4">
                             <div class="flex items-center gap-3">
                                 @if($product->image_url)
-                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-11 h-11 object-cover rounded-lg border border-sand-200 shrink-0">
+                                    <img src="{{ \Illuminate\Support\Str::startsWith($product->image_url, ['http://', 'https://']) ? $product->image_url : (\Illuminate\Support\Str::startsWith($product->image_url, 'images/') ? asset($product->image_url) : asset('storage/' . $product->image_url)) }}" alt="{{ $product->name }}" class="w-11 h-11 object-cover rounded-lg border border-sand-200 shrink-0">
                                 @else
                                     <div class="w-11 h-11 rounded-lg bg-sand-100 border border-sand-200 flex items-center justify-center text-xs font-bold text-sand-600 uppercase shrink-0">
                                         {{ substr($product->name, 0, 2) }}

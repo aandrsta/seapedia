@@ -43,8 +43,7 @@ class ProductController extends Controller
         // Handle image upload
         $imageUrl = null;
         if ($request->hasFile('product_image')) {
-            $path     = $request->file('product_image')->store('products', 'public');
-            $imageUrl = Storage::disk('public')->url($path);
+            $imageUrl = $request->file('product_image')->store('products', 'public');
         }
 
         $store->products()->create([
@@ -83,8 +82,7 @@ class ProductController extends Controller
         if ($request->hasFile('product_image')) {
             // Delete old image first
             $this->deleteImageFromStorage($product->image_url);
-            $path     = $request->file('product_image')->store('products', 'public');
-            $imageUrl = Storage::disk('public')->url($path);
+            $imageUrl = $request->file('product_image')->store('products', 'public');
         }
 
         $product->update([

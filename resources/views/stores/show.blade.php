@@ -16,9 +16,10 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-sand-100">
             <!-- Store Profile Header -->
             <div class="flex items-center gap-5 sm:gap-6">
-                <!-- Store Logo / Avatar Container -->
+                <!-- Store Logo / Avatar Container with Pulsing Green Border Ring -->
                 <div class="relative group">
-                    <div class="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border border-sand-300 shadow-sm shrink-0 bg-sand-50">
+                    <div class="absolute -inset-1 rounded-[18px] border-2 border-emerald-500 animate-pulse"></div>
+                    <div class="relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden shadow-sm shrink-0 bg-sand-50">
                         @if($store->logo_url)
                             <img src="{{ $store->logo_url }}" alt="{{ $store->name }}" class="w-full h-full object-cover">
                         @elseif($store->user && $store->user->avatar_url)
@@ -29,7 +30,7 @@
                             </div>
                         @endif
                     </div>
-                    <span class="absolute -bottom-1 -right-1 w-4.5 h-4.5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center" title="Toko Aktif">
+                    <span class="absolute -bottom-1 -right-1 w-4.5 h-4.5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center z-10" title="Toko Aktif">
                         <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
                     </span>
                 </div>

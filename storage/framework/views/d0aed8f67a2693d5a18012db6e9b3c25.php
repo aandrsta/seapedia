@@ -106,18 +106,23 @@
             <!-- Redesigned Seller Section Profile Card (Tokopedia-Style rounded-[16px]) -->
             <div class="bg-white rounded-[16px] border border-sand-200 shadow-[0_8px_24px_rgba(11,19,43,0.04)] p-6 space-y-4">
                 <div class="flex items-center gap-3">
-                    <!-- Seller Store Logo / Avatar Box -->
-                    <div class="w-12 h-12 bg-navy-900 text-teal-400 flex items-center justify-center shrink-0 border border-teal-500/20 rounded-[10px] overflow-hidden">
-                        <?php if($product->store->logo_url): ?>
-                            <img src="<?php echo e($product->store->logo_url); ?>" alt="<?php echo e($product->store->name); ?>" class="w-full h-full object-cover">
-                        <?php elseif($product->store->user && $product->store->user->avatar_url): ?>
-                            <img src="<?php echo e($product->store->user->avatar_url); ?>" alt="<?php echo e($product->store->name); ?>" class="w-full h-full object-cover">
-                        <?php else: ?>
-                            <div class="w-full h-full bg-teal-600 text-white flex items-center justify-center font-black text-sm uppercase">
-                                <?php echo e(strtoupper(substr($product->store->name, 0, 2))); ?>
+                    <!-- Seller Store Logo / Avatar Box with Pulsing Green Border Ring -->
+                    <div class="relative w-12 h-12 shrink-0">
+                        <!-- Pulsing Outer Ring -->
+                        <div class="absolute -inset-0.5 rounded-[12px] border-2 border-emerald-500 animate-pulse"></div>
+                        <!-- Inner Image Box -->
+                        <div class="relative w-12 h-12 rounded-[10px] overflow-hidden bg-navy-900 text-teal-400 flex items-center justify-center">
+                            <?php if($product->store->logo_url): ?>
+                                <img src="<?php echo e($product->store->logo_url); ?>" alt="<?php echo e($product->store->name); ?>" class="w-full h-full object-cover">
+                            <?php elseif($product->store->user && $product->store->user->avatar_url): ?>
+                                <img src="<?php echo e($product->store->user->avatar_url); ?>" alt="<?php echo e($product->store->name); ?>" class="w-full h-full object-cover">
+                            <?php else: ?>
+                                <div class="w-full h-full bg-teal-600 text-white flex items-center justify-center font-black text-sm uppercase">
+                                    <?php echo e(strtoupper(substr($product->store->name, 0, 2))); ?>
 
-                            </div>
-                        <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
                     <div class="min-w-0">
                         <span class="text-[9px] font-black text-sand-500 uppercase tracking-widest block">INFORMASI SELLER</span>
