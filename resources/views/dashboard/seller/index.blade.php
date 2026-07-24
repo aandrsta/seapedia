@@ -21,9 +21,18 @@
     @if(auth()->user()->store)
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="md:col-span-2 space-y-4">
-                <div>
-                    <h4 class="text-xs font-bold text-sand-500 uppercase tracking-wider">Nama Toko</h4>
-                    <p class="text-lg font-bold text-navy-800">{{ auth()->user()->store->name }}</p>
+                <div class="flex items-center gap-4">
+                    @if(auth()->user()->store->logo_url)
+                        <img src="{{ auth()->user()->store->logo_url }}" alt="{{ auth()->user()->store->name }}" class="w-16 h-16 rounded-xl object-cover border border-sand-300 shadow-sm shrink-0">
+                    @else
+                        <div class="w-16 h-16 rounded-xl bg-teal-600 text-white flex items-center justify-center font-black text-xl uppercase shrink-0 shadow-sm">
+                            {{ strtoupper(substr(auth()->user()->store->name, 0, 2)) }}
+                        </div>
+                    @endif
+                    <div>
+                        <h4 class="text-xs font-bold text-sand-500 uppercase tracking-wider">Nama Toko</h4>
+                        <p class="text-xl font-black text-navy-800">{{ auth()->user()->store->name }}</p>
+                    </div>
                 </div>
                 <div>
                     <h4 class="text-xs font-bold text-sand-500 uppercase tracking-wider">Deskripsi Toko</h4>

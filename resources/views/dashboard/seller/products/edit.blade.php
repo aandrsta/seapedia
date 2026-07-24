@@ -4,7 +4,7 @@
 @section('page_title', 'Perbarui Informasi Produk')
 
 @section('content')
-<div class="max-w-2xl">
+<div class="max-w-2xl mx-auto">
     <div class="card p-8 bg-white border border-sand-300 shadow-warm">
         <div class="mb-6">
             <h2 class="text-xl font-bold text-navy-800 mb-1">Edit Produk</h2>
@@ -204,6 +204,33 @@ function mediaPickerEdit(existingUrl) {
         },
 
         loadPreview(file) {
+            const maxMB = 2;
+            const maxSize = maxMB * 1024 * 1024;
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+
+            if (file.type && !validTypes.includes(file.type.toLowerCase())) {
+                const msg = 'Format file tidak didukung! Harap unggah foto berformat JPG, PNG, atau WebP.';
+                if (window.Alpine && window.Alpine.store('toast')) {
+                    window.Alpine.store('toast').add(msg, 'error', 7000);
+                } else {
+                    alert(msg);
+                }
+                this.clearNewUpload();
+                return;
+            }
+
+            if (file.size > maxSize) {
+                const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                const msg = `Ukuran foto (${sizeMB}MB) terlalu besar! Maksimal ukuran foto adalah ${maxMB}MB.`;
+                if (window.Alpine && window.Alpine.store('toast')) {
+                    window.Alpine.store('toast').add(msg, 'error', 7000);
+                } else {
+                    alert(msg);
+                }
+                this.clearNewUpload();
+                return;
+            }
+
             this.removeImage = false;
             this.fileName    = file.name + ' (' + (file.size / 1024).toFixed(0) + ' KB)';
             const reader     = new FileReader();

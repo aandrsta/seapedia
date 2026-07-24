@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Store extends Model
 {
-    protected $fillable = ['user_id', 'name', 'description'];
+    protected $fillable = ['user_id', 'name', 'logo', 'description'];
+
+    public function getLogoUrlAttribute()
+    {
+        if ($this->logo) {
+            return asset('storage/' . $this->logo);
+        }
+        return null;
+    }
 
     public function user()
     {

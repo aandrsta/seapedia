@@ -19,6 +19,42 @@ class ProfileController extends Controller
         return view('profile.index', compact('user', 'roles', 'activeRole'));
     }
 
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'avatar.image' => 'File foto profil harus berupa gambar.',
+            'avatar.mimes' => 'Format foto profil harus jpeg, png, jpg, gif, atau webp.',
+            'avatar.max' => 'Ukuran foto profil maksimal 2MB.',
+        ]);
+
+        $data = [
+            'name' => $request->name,
+        ];
+
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($user->avatar && \Illuminate\Support\Facades\Storage::disk('public')->exists($user->avatar)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($user->avatar);
+            }
+
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $data['avatar'] = $path;
+        }
+
+        $user->update($data);
+
+        return redirect()->route('profile')->with('success', 'Foto & profil Anda berhasil diperbarui!');
+    }
+
     public function partnership()
     {
         $user = auth()->user();

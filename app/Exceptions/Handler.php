@@ -26,5 +26,9 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, $request) {
+            return redirect()->back()->with('error', 'Ukuran foto yang Anda unggah terlalu besar! Maksimal ukuran file adalah 2MB.');
+        });
     }
 }

@@ -41,12 +41,16 @@
                             id="navbar-profile-btn"
                             @click="profileOpen = !profileOpen"
                             :class="profileOpen ? 'ring-2 ring-teal-400 ring-offset-2 scale-105' : 'hover:scale-105'"
-                            class="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 text-white font-extrabold text-[11px] shadow-warm-sm border border-teal-300 transition-all duration-150 shrink-0 cursor-pointer focus:outline-none"
+                            class="flex items-center justify-center w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-teal-400 to-teal-600 text-white font-extrabold text-[11px] shadow-warm-sm border border-teal-300 transition-all duration-150 shrink-0 cursor-pointer focus:outline-none"
                             title="Profil Saya"
                             aria-haspopup="true"
                             :aria-expanded="profileOpen"
                         >
-                            {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                            @if(auth()->user()->avatar_url)
+                                <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                            @else
+                                {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                            @endif
                         </button>
 
                         <!-- Profile Dropdown Panel -->
@@ -65,8 +69,12 @@
                             <div class="px-4 py-4 bg-gradient-to-br from-teal-600 to-teal-700 relative overflow-hidden">
                                 <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(rgba(255,255,255,0.3) 1px, transparent 1px); background-size: 16px 16px;"></div>
                                 <div class="relative flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center font-black text-white text-sm shrink-0">
-                                        {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                                    <div class="w-10 h-10 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center font-black text-white text-sm shrink-0">
+                                        @if(auth()->user()->avatar_url)
+                                            <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                                        @else
+                                            {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
+                                        @endif
                                     </div>
                                     <div class="min-w-0">
                                         <p class="text-white font-black text-sm leading-tight truncate">{{ auth()->user()->name }}</p>

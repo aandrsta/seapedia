@@ -1,23 +1,35 @@
-@if(session('success') || session('error') || session('info') || $errors->any())
-    <div class="space-y-3 mb-6">
+@if(session('success') || session('error') || session('info') || session('status') || $errors->any())
+    <div class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 max-w-md w-[calc(100%-2.5rem)] pointer-events-none sm:w-full">
         
         {{-- Success Alert --}}
         @if(session('success'))
-            <div x-data="{ show: true }" 
+            <div x-data="{ show: true }"
+                 x-init="setTimeout(() => show = false, 6000)"
                  x-show="show"
+                 x-transition:enter="transition ease-out duration-300 transform"
+                 x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                  x-transition:leave="transition ease-in duration-200 transform"
                  x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 class="relative overflow-hidden bg-gradient-to-r from-emerald-50/90 to-emerald-50/40 border border-emerald-100 border-l-4 border-l-emerald-500 p-4 rounded-[12px] shadow-warm flex items-start justify-between gap-3 animate-cinematic">
-                <div class="flex items-start gap-3">
-                    <div class="p-1.5 bg-emerald-100 text-emerald-600 rounded-full shrink-0">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                 x-transition:leave-end="opacity-0 -translate-y-3 scale-95"
+                 class="pointer-events-auto relative overflow-hidden bg-navy-900/95 backdrop-blur-xl border border-navy-700/80 p-4 sm:p-4.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-start justify-between gap-3.5 text-white">
+                
+                <div class="flex items-start gap-3.5">
+                    <div class="p-2.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl shrink-0 mt-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
                     </div>
-                    <div class="text-sm font-semibold text-emerald-800 mt-1">
-                        {{ session('success') }}
+                    <div class="space-y-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></span>
+                            <h6 class="text-[11px] font-extrabold uppercase tracking-widest text-emerald-400">Berhasil</h6>
+                        </div>
+                        <p class="text-xs sm:text-sm font-medium text-sand-100 leading-relaxed">
+                            {{ session('success') }}
+                        </p>
                     </div>
                 </div>
-                <button @click="show = false" class="p-1 rounded-full text-emerald-400 hover:text-emerald-700 hover:bg-emerald-100/50 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
+                
+                <button @click="show = false" class="p-1.5 rounded-lg text-sand-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -25,21 +37,33 @@
 
         {{-- Error Alert --}}
         @if(session('error'))
-            <div x-data="{ show: true }" 
+            <div x-data="{ show: true }"
+                 x-init="setTimeout(() => show = false, 7000)"
                  x-show="show"
+                 x-transition:enter="transition ease-out duration-300 transform"
+                 x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                  x-transition:leave="transition ease-in duration-200 transform"
                  x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 class="relative overflow-hidden bg-gradient-to-r from-coral-50/90 to-coral-50/40 border border-coral-100 border-l-4 border-l-coral-500 p-4 rounded-[12px] shadow-warm flex items-start justify-between gap-3 animate-cinematic">
-                <div class="flex items-start gap-3">
-                    <div class="p-1.5 bg-coral-100 text-coral-600 rounded-full shrink-0">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                 x-transition:leave-end="opacity-0 -translate-y-3 scale-95"
+                 class="pointer-events-auto relative overflow-hidden bg-navy-900/95 backdrop-blur-xl border border-navy-700/80 p-4 sm:p-4.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-start justify-between gap-3.5 text-white">
+                
+                <div class="flex items-start gap-3.5">
+                    <div class="p-2.5 bg-coral-500/10 text-coral-400 border border-coral-500/20 rounded-xl shrink-0 mt-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
                     </div>
-                    <div class="text-sm font-semibold text-coral-800 mt-1">
-                        {{ session('error') }}
+                    <div class="space-y-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="h-2 w-2 rounded-full bg-coral-400 shadow-[0_0_8px_rgba(248,113,113,0.8)]"></span>
+                            <h6 class="text-[11px] font-extrabold uppercase tracking-widest text-coral-400">Terjadi Kesalahan</h6>
+                        </div>
+                        <p class="text-xs sm:text-sm font-medium text-sand-100 leading-relaxed">
+                            {{ session('error') }}
+                        </p>
                     </div>
                 </div>
-                <button @click="show = false" class="p-1 rounded-full text-coral-400 hover:text-coral-700 hover:bg-coral-100/50 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
+
+                <button @click="show = false" class="p-1.5 rounded-lg text-sand-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -47,21 +71,67 @@
 
         {{-- Info Alert --}}
         @if(session('info'))
-            <div x-data="{ show: true }" 
+            <div x-data="{ show: true }"
+                 x-init="setTimeout(() => show = false, 6000)"
                  x-show="show"
+                 x-transition:enter="transition ease-out duration-300 transform"
+                 x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                  x-transition:leave="transition ease-in duration-200 transform"
                  x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 class="relative overflow-hidden bg-gradient-to-r from-blue-50/90 to-blue-50/40 border border-blue-100 border-l-4 border-l-blue-500 p-4 rounded-[12px] shadow-warm flex items-start justify-between gap-3 animate-cinematic">
-                <div class="flex items-start gap-3">
-                    <div class="p-1.5 bg-blue-100 text-blue-600 rounded-full shrink-0">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                 x-transition:leave-end="opacity-0 -translate-y-3 scale-95"
+                 class="pointer-events-auto relative overflow-hidden bg-navy-900/95 backdrop-blur-xl border border-navy-700/80 p-4 sm:p-4.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-start justify-between gap-3.5 text-white">
+                
+                <div class="flex items-start gap-3.5">
+                    <div class="p-2.5 bg-teal-500/10 text-teal-400 border border-teal-500/20 rounded-xl shrink-0 mt-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     </div>
-                    <div class="text-sm font-semibold text-blue-800 mt-1">
-                        {{ session('info') }}
+                    <div class="space-y-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="h-2 w-2 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.8)]"></span>
+                            <h6 class="text-[11px] font-extrabold uppercase tracking-widest text-teal-400">Informasi</h6>
+                        </div>
+                        <p class="text-xs sm:text-sm font-medium text-sand-100 leading-relaxed">
+                            {{ session('info') }}
+                        </p>
                     </div>
                 </div>
-                <button @click="show = false" class="p-1 rounded-full text-blue-400 hover:text-blue-700 hover:bg-blue-100/50 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
+
+                <button @click="show = false" class="p-1.5 rounded-lg text-sand-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        @endif
+
+        {{-- Status Alert --}}
+        @if(session('status'))
+            <div x-data="{ show: true }"
+                 x-init="setTimeout(() => show = false, 6000)"
+                 x-show="show"
+                 x-transition:enter="transition ease-out duration-300 transform"
+                 x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                 x-transition:leave="transition ease-in duration-200 transform"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 -translate-y-3 scale-95"
+                 class="pointer-events-auto relative overflow-hidden bg-navy-900/95 backdrop-blur-xl border border-navy-700/80 p-4 sm:p-4.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-start justify-between gap-3.5 text-white">
+                
+                <div class="flex items-start gap-3.5">
+                    <div class="p-2.5 bg-teal-500/10 text-teal-400 border border-teal-500/20 rounded-xl shrink-0 mt-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 111.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div class="space-y-0.5">
+                        <div class="flex items-center gap-2">
+                            <span class="h-2 w-2 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.8)]"></span>
+                            <h6 class="text-[11px] font-extrabold uppercase tracking-widest text-teal-400">Status</h6>
+                        </div>
+                        <p class="text-xs sm:text-sm font-medium text-sand-100 leading-relaxed">
+                            {{ session('status') }}
+                        </p>
+                    </div>
+                </div>
+
+                <button @click="show = false" class="p-1.5 rounded-lg text-sand-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
@@ -69,29 +139,41 @@
 
         {{-- Validation Errors Alert --}}
         @if($errors->any())
-            <div x-data="{ show: true }" 
+            <div x-data="{ show: true }"
+                 x-init="setTimeout(() => show = false, 8000)"
                  x-show="show"
+                 x-transition:enter="transition ease-out duration-300 transform"
+                 x-transition:enter-start="opacity-0 -translate-y-3 scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                  x-transition:leave="transition ease-in duration-200 transform"
                  x-transition:leave-start="opacity-100 scale-100"
-                 x-transition:leave-end="opacity-0 scale-95"
-                 class="relative overflow-hidden bg-gradient-to-r from-coral-50/90 to-coral-50/40 border border-coral-100 border-l-4 border-l-coral-500 p-4 rounded-[12px] shadow-warm flex items-start justify-between gap-3 animate-cinematic">
-                <div class="flex items-start gap-3">
-                    <div class="p-1.5 bg-coral-100 text-coral-600 rounded-full shrink-0">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                 x-transition:leave-end="opacity-0 -translate-y-3 scale-95"
+                 class="pointer-events-auto relative overflow-hidden bg-navy-900/95 backdrop-blur-xl border border-navy-700/80 p-4 sm:p-4.5 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] flex items-start justify-between gap-3.5 text-white">
+                
+                <div class="flex items-start gap-3.5">
+                    <div class="p-2.5 bg-coral-500/10 text-coral-400 border border-coral-500/20 rounded-xl shrink-0 mt-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
                     </div>
-                    <div class="mt-1">
-                        <h5 class="text-sm font-bold text-coral-800 mb-1.5">Ada beberapa kesalahan input:</h5>
-                        <ul class="list-disc list-inside text-xs text-coral-700 space-y-1">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="h-2 w-2 rounded-full bg-coral-400 shadow-[0_0_8px_rgba(248,113,113,0.8)]"></span>
+                            <h6 class="text-[11px] font-extrabold uppercase tracking-widest text-coral-400">Periksa Input</h6>
+                        </div>
+                        <ul class="list-disc list-inside text-xs font-medium text-sand-100 space-y-1">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
-                <button @click="show = false" class="p-1 rounded-full text-coral-400 hover:text-coral-700 hover:bg-coral-100/50 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
+
+                <button @click="show = false" class="p-1.5 rounded-lg text-sand-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none shrink-0" aria-label="Tutup">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
             </div>
         @endif
+
     </div>
 @endif
+
+

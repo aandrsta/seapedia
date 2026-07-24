@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'username',
         'email',
+        'avatar',
         'password',
     ];
 
@@ -77,5 +78,13 @@ class User extends Authenticatable
     public function hasRole($role)
     {
         return $this->roles()->where('role', $role)->exists();
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        if ($this->avatar) {
+            return asset('storage/' . $this->avatar);
+        }
+        return null;
     }
 }

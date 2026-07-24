@@ -11,25 +11,79 @@
         Kembali ke Katalog
     </a>
 
-    <!-- Store Info Banner -->
-    <div class="card p-8 bg-white border border-sand-300 shadow-warm mb-10">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 border-b border-sand-200 mb-6">
-            <div class="flex items-center gap-4">
-                <div class="p-4 bg-teal-500/10 text-teal-600 rounded-full">
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+    <!-- Store Info Banner (Clean Modern Light Theme) -->
+    <div class="bg-white rounded-[24px] border border-sand-200 shadow-[0_10px_30px_rgba(11,19,43,0.05)] mb-10 p-8 sm:p-10">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-sand-100">
+            <!-- Store Profile Header -->
+            <div class="flex items-center gap-5 sm:gap-6">
+                <!-- Store Logo / Avatar Container -->
+                <div class="relative group">
+                    <div class="w-20 h-20 sm:w-22 sm:h-22 rounded-2xl overflow-hidden border border-sand-300 shadow-sm shrink-0 bg-sand-50">
+                        @if($store->logo_url)
+                            <img src="{{ $store->logo_url }}" alt="{{ $store->name }}" class="w-full h-full object-cover">
+                        @elseif($store->user && $store->user->avatar_url)
+                            <img src="{{ $store->user->avatar_url }}" alt="{{ $store->name }}" class="w-full h-full object-cover">
+                        @else
+                            <div class="w-full h-full bg-teal-600 text-white flex items-center justify-center font-black text-2xl uppercase">
+                                {{ strtoupper(substr($store->name, 0, 2)) }}
+                            </div>
+                        @endif
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 w-4.5 h-4.5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center" title="Toko Aktif">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
+                    </span>
                 </div>
-                <div>
-                    <h1 class="text-3xl font-bold text-navy-800">{{ $store->name }}</h1>
-                    <p class="text-xs text-sand-500 mt-1 uppercase tracking-wider font-semibold">Toko Mandiri Terverifikasi</p>
+
+                <div class="space-y-1.5">
+                    <div class="flex flex-wrap items-center gap-2.5">
+                        <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-navy-900 leading-tight">{{ $store->name }}</h1>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            <!-- Status Box -->
+            <div class="shrink-0 flex items-center gap-3">
+                <div class="px-4 py-2 rounded-xl bg-sand-50 border border-sand-200 text-center">
+                    <span class="text-[9px] font-black uppercase tracking-widest text-sand-500 block">STATUS</span>
+                    <span class="text-xs font-bold text-emerald-700 flex items-center justify-center gap-1.5 mt-0.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Aktif
+                    </span>
                 </div>
             </div>
         </div>
 
-        <div>
-            <h4 class="text-xs font-bold text-sand-500 uppercase tracking-wider mb-2">Tentang Toko</h4>
-            <p class="text-sm text-sand-700 leading-relaxed max-w-3xl whitespace-pre-line">
-                {{ $store->description ?? 'Penjual belum menambahkan deskripsi untuk toko ini.' }}
-            </p>
+        <!-- Store Description & Metrics Grid -->
+        <div class="pt-6 space-y-6">
+            @if($store->description)
+                <p class="text-xs sm:text-sm text-sand-700 leading-relaxed max-w-3xl font-medium">
+                    {{ $store->description }}
+                </p>
+            @endif
+
+            <!-- Soft Light Stat Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                <div class="p-4 rounded-2xl bg-sand-50/60 border border-sand-200/80 hover:bg-sand-100/50 transition-colors">
+                    <span class="text-[9px] font-black text-sand-500 uppercase tracking-widest block">JUMLAH PRODUK</span>
+                    <span class="text-base sm:text-lg font-black text-navy-900 mt-0.5 block">{{ $store->products->count() }} Items</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-sand-50/60 border border-sand-200/80 hover:bg-sand-100/50 transition-colors">
+                    <span class="text-[9px] font-black text-sand-500 uppercase tracking-widest block">RATING TOKO</span>
+                    <span class="text-base sm:text-lg font-black text-navy-900 mt-0.5 flex items-center gap-1">
+                        ⭐ {{ number_format($store->products->avg('rating') ?: 5.0, 1) }}
+                    </span>
+                </div>
+                <div class="p-4 rounded-2xl bg-sand-50/60 border border-sand-200/80 hover:bg-sand-100/50 transition-colors">
+                    <span class="text-[9px] font-black text-sand-500 uppercase tracking-widest block">TOTAL TERJUAL</span>
+                    <span class="text-base sm:text-lg font-black text-navy-900 mt-0.5 block">{{ $store->products->sum('sold_count') }} Produk</span>
+                </div>
+                <div class="p-4 rounded-2xl bg-sand-50/60 border border-sand-200/80 hover:bg-sand-100/50 transition-colors">
+                    <span class="text-[9px] font-black text-sand-500 uppercase tracking-widest block">BERGABUNG SEJAK</span>
+                    <span class="text-xs sm:text-sm font-black text-navy-900 mt-1 block">{{ $store->created_at->diffForHumans() }}</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -37,50 +91,16 @@
     <div>
         <h2 class="text-xl font-bold text-navy-800 mb-6">Produk dari Toko Ini</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            @forelse($store->products as $product)
-                <div class="card card-hover overflow-hidden flex flex-col bg-white">
-                    <!-- Thumbnail -->
-                    <div class="aspect-square bg-sand-300 relative flex items-center justify-center text-sand-500 overflow-hidden">
-                        @if($product->image_url)
-                            <img src="{{ \Illuminate\Support\Str::startsWith($product->image_url, ['http://', 'https://']) ? $product->image_url : asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="object-cover w-full h-full">
-                        @else
-                            <svg class="w-12 h-12 text-sand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        @endif
-                    </div>
-
-                    <!-- Card Body -->
-                    <div class="p-5 flex-grow flex flex-col">
-                        <!-- Title -->
-                        <h3 class="text-base font-bold text-navy-800 line-clamp-2 mb-2" title="{{ $product->name }}">
-                            {{ $product->name }}
-                        </h3>
-
-                        <!-- Price -->
-                        <p class="text-lg font-black text-coral-500 mb-2">
-                            Rp {{ number_format($product->price, 0, ',', '.') }}
-                        </p>
-
-                        <!-- Description Snippet -->
-                        <p class="text-xs text-sand-600 line-clamp-2 mb-4">
-                            {{ $product->description ?? 'Tidak ada deskripsi produk.' }}
-                        </p>
-
-                        <!-- Stock & Button -->
-                        <div class="mt-auto pt-4 border-t border-sand-200 flex items-center justify-between">
-                            <span class="text-xs font-semibold {{ $product->stock > 0 ? 'text-emerald-700' : 'text-coral-500' }}">
-                                Stok: {{ $product->stock }}
-                            </span>
-                            
-                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary btn-sm rounded-full text-xs font-bold px-4">
-                                Detail
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 gap-y-12">
+            @forelse($store->products as $index => $product)
+                <x-product-card :product="$product" :index="$index" :bg-card="true" />
             @empty
-                <div class="col-span-full text-center py-16 card bg-white text-sand-500 italic">
-                    Belum ada produk aktif yang dijual oleh toko ini.
+                <div class="col-span-full py-24 text-center bg-white rounded-[24px] border border-sand-300 shadow-sm">
+                    <div class="w-24 h-24 bg-sand-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-sand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-black text-navy-800 mb-1">Belum Ada Produk</h3>
+                    <p class="text-sand-600 font-medium text-xs">Penjual ini belum menambahkan katalog produk jualan.</p>
                 </div>
             @endforelse
         </div>

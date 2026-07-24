@@ -21,65 +21,61 @@
             Belum ada produk jualan yang diunggah. Silakan klik tombol di atas untuk menambahkan produk pertama Anda.
         </div>
     @else
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b border-sand-300 bg-sand-100/50">
-                        <th class="label px-4 py-3 text-left">Info Produk</th>
-                        <th class="label px-4 py-3 text-left">Harga</th>
-                        <th class="label px-4 py-3 text-left">Stok</th>
-                        <th class="label px-4 py-3 text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-sand-200">
-                    @foreach($products as $product)
-                        <tr class="hover:bg-sand-50/50 transition-colors">
-                            <td class="px-4 py-4">
-                                <div class="flex items-center gap-3">
-                                    @if($product->image_url)
-                                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-12 h-12 object-cover rounded-sea border border-sand-300">
-                                    @else
-                                        <div class="w-12 h-12 rounded-sea bg-sand-200 border border-sand-300 flex items-center justify-center text-xs font-bold text-sand-600 uppercase">
-                                            {{ substr($product->name, 0, 2) }}
-                                        </div>
-                                    @endif
-                                    <div>
-                                        <p class="text-sm font-bold text-navy-800 leading-tight mb-1">{{ $product->name }}</p>
-                                        <p class="text-xs text-sand-600 line-clamp-1 max-w-sm">{{ $product->description ?? 'Tidak ada deskripsi.' }}</p>
+        <x-table>
+            <x-slot:thead>
+                <th class="px-5 py-3.5 text-xs font-semibold text-sand-600 uppercase tracking-wider text-left">Info Produk</th>
+                <th class="px-5 py-3.5 text-xs font-semibold text-sand-600 uppercase tracking-wider text-left">Harga</th>
+                <th class="px-5 py-3.5 text-xs font-semibold text-sand-600 uppercase tracking-wider text-left">Stok</th>
+                <th class="px-5 py-3.5 text-xs font-semibold text-sand-600 uppercase tracking-wider text-right">Aksi</th>
+            </x-slot:thead>
+            <x-slot:tbody>
+                @foreach($products as $product)
+                    <tr class="hover:bg-sand-50/40 transition-colors">
+                        <td class="px-5 py-4">
+                            <div class="flex items-center gap-3">
+                                @if($product->image_url)
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-11 h-11 object-cover rounded-lg border border-sand-200 shrink-0">
+                                @else
+                                    <div class="w-11 h-11 rounded-lg bg-sand-100 border border-sand-200 flex items-center justify-center text-xs font-bold text-sand-600 uppercase shrink-0">
+                                        {{ substr($product->name, 0, 2) }}
                                     </div>
+                                @endif
+                                <div class="min-w-0">
+                                    <p class="text-sm font-semibold text-navy-900 leading-tight truncate">{{ $product->name }}</p>
+                                    <p class="text-xs text-sand-500 line-clamp-1 mt-0.5">{{ $product->description ?? 'Tidak ada deskripsi.' }}</p>
                                 </div>
-                            </td>
-                            <td class="px-4 py-4 text-sm font-bold text-navy-800">
-                                Rp {{ number_format($product->price, 0, ',', '.') }}
-                            </td>
-                            <td class="px-4 py-4 text-sm">
-                                <span class="font-bold {{ $product->stock === 0 ? 'text-coral-500' : 'text-navy-800' }}">
-                                    {{ $product->stock }}
-                                </span>
-                            </td>
-                            <td class="px-4 py-4 text-right">
-                                <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('products.show', $product->id) }}" target="_blank" class="btn btn-ghost btn-sm border border-sand-400 text-xs px-2.5" title="Lihat di Katalog">
-                                        Lihat
-                                    </a>
-                                    <a href="{{ route('seller.products.edit', $product->id) }}" class="btn btn-secondary btn-sm text-xs px-2.5">
-                                        Edit
-                                    </a>
-                                    
-                                    <form action="{{ route('seller.products.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-ghost btn-sm text-coral-500 hover:bg-coral-50 text-xs px-2.5">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                            </div>
+                        </td>
+                        <td class="px-5 py-4 text-sm font-semibold text-navy-900 whitespace-nowrap">
+                            Rp {{ number_format($product->price, 0, ',', '.') }}
+                        </td>
+                        <td class="px-5 py-4 text-sm whitespace-nowrap">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $product->stock === 0 ? 'bg-coral-50 text-coral-600 border border-coral-200/60' : 'text-navy-800' }}">
+                                {{ $product->stock }}
+                            </span>
+                        </td>
+                        <td class="px-5 py-4 text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ route('products.show', $product->id) }}" target="_blank" class="btn btn-ghost btn-sm text-xs px-2.5 text-sand-600 hover:text-navy-800" title="Lihat di Katalog">
+                                    Lihat
+                                </a>
+                                <a href="{{ route('seller.products.edit', $product->id) }}" class="btn btn-secondary btn-sm text-xs px-2.5">
+                                    Edit
+                                </a>
+                                
+                                <form action="{{ route('seller.products.destroy', $product->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-ghost btn-sm text-coral-500 hover:bg-coral-50 text-xs px-2.5">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </x-slot:tbody>
+        </x-table>
     @endif
 
     <div class="mt-8 pt-6 border-t border-sand-200">

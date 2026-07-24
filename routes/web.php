@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/select-role', [RoleSelectionController::class, 'select'])->name('select-role.store');
     
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/profile/partnership', [ProfileController::class, 'partnership'])->name('profile.partnership');
     Route::post('/profile/partnership', [ProfileController::class, 'storePartnership'])->name('profile.partnership.store');
 

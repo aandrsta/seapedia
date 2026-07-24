@@ -20,15 +20,51 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Left Panel: User Profile Summary (Card Layout) -->
+            <!-- Left Panel: User Profile Summary & Avatar Upload -->
             <div class="lg:col-span-1 space-y-6">
-                <div class="card p-6 bg-white border border-sand-300 shadow-warm rounded-[20px] flex flex-col items-center text-center animate-cinematic delay-100">
-                    <div class="w-20 h-20 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 text-white flex items-center justify-center font-black text-3xl shadow-warm mb-4">
-                        {{ strtoupper(substr($user->name, 0, 2)) }}
-                    </div>
-                    
-                    <h2 class="text-xl font-black text-navy-900 leading-tight">{{ $user->name }}</h2>
-                    <p class="text-xs text-sand-500 font-semibold mt-1">@ {{ $user->username }}</p>
+                <div class="card p-6 bg-white border border-sand-300 shadow-warm rounded-[20px] flex flex-col items-center text-center animate-cinematic delay-100" x-data="{ avatarPreview: '{{ $user->avatar_url }}' }">
+                    <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data" class="w-full flex flex-col items-center">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Avatar Container with Upload Overlay -->
+                        <div class="relative group mb-4">
+                            <template x-if="avatarPreview">
+                                <img :src="avatarPreview" alt="{{ $user->name }}" class="w-24 h-24 rounded-full object-cover shadow-warm border-2 border-teal-500">
+                            </template>
+                            <template x-if="!avatarPreview">
+                                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 text-white flex items-center justify-center font-black text-3xl shadow-warm">
+                                    {{ strtoupper(substr($user->name, 0, 2)) }}
+                                </div>
+                            </template>
+
+                            <label for="avatar-input" class="absolute inset-0 rounded-full bg-navy-950/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer text-white text-xs font-bold gap-1">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"></path></svg>
+                            </label>
+                            <input type="file" id="avatar-input" name="avatar" class="hidden" accept="image/*" @change="
+                                const file = $event.target.files[0];
+                                if (file) {
+                                    avatarPreview = URL.createObjectURL(file);
+                                }
+                            ">
+                        </div>
+
+                        <!-- User Name Edit -->
+                        <div class="w-full mb-2">
+                            <input type="text" name="name" value="{{ old('name', $user->name) }}" class="input text-center text-lg font-black text-navy-900 py-1" placeholder="Nama Lengkap" required>
+                            @error('name')
+                                <p class="text-[10px] text-coral-500 font-medium mt-1">{{ $message }}</p>
+                            @enderror
+                            @error('avatar')
+                                <p class="text-[10px] text-coral-500 font-medium mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <p class="text-xs text-sand-500 font-semibold mb-4">@ {{ $user->username }}</p>
+
+                        <button type="submit" class="btn btn-primary btn-sm w-full text-[10px] font-black uppercase tracking-wider py-2">
+                            Simpan Perubahan Foto & Profile
+                        </button>
+                    </form>
                     
                     <div class="w-full border-t border-sand-200/80 my-4"></div>
                     

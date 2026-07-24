@@ -48,7 +48,7 @@
             @endforeach
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg w-full mt-4 font-black tracking-widest text-white shadow-md">
+        <button type="submit" class="btn btn-light btn-lg w-full mt-4 font-black tracking-widest text-white shadow-md">
             Lanjutkan Sesi
         </button>
     </form>
